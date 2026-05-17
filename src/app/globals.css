@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains);
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #f3d2e2;
+  color: #b87090;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Flutter-in load animation. Each .flutter element gets animation-delay inline. */
+@keyframes flutterFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) rotate(-3deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(0);
+  }
+}
+
+.flutter {
+  opacity: 0;
+  animation: flutterFadeIn 700ms cubic-bezier(0.2, 0.7, 0.3, 1.05) forwards;
+}
+
+/* Hover tilt + lift. --collage-rot is set inline so base rotation composes. */
+.collage-piece {
+  transition:
+    transform 380ms cubic-bezier(0.2, 0.9, 0.3, 1.2),
+    filter 280ms ease;
+}
+
+.collage-hoverable:hover {
+  transform: translate(-3px, -8px) rotate(var(--collage-rot, 0deg)) scale(1.03) !important;
+  filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.35));
+  z-index: 50;
+}
+
+/* Link micro-interactions (matches handoff .cl-link / .tab-link) */
+.cl-link {
+  transition: transform 200ms ease;
+}
+
+.cl-link:hover {
+  transform: translateX(3px);
+}
+
+.tab-link:hover {
+  transform: translateY(-3px) rotate(0deg) !important;
+}
+
+/* Location page — scrap hover tilt & cycling bubble transition */
+.scrap-tilt {
+  transition: transform 300ms cubic-bezier(.2, .9, .3, 1.3);
+}
+.scrap-tilt:hover {
+  transform: rotate(0deg) translateY(-4px) !important;
+}
+.bubble-cycle {
+  transition: opacity 500ms ease, transform 500ms ease;
+}
+
+/* Book page flip */
+@keyframes page-flip-forward {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(-180deg); }
+}
+@keyframes page-flip-backward {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(180deg); }
+}
+.page-flip-forward {
+  animation: page-flip-forward 650ms cubic-bezier(0.645, 0.045, 0.355, 1.0) forwards;
+}
+.page-flip-backward {
+  animation: page-flip-backward 650ms cubic-bezier(0.645, 0.045, 0.355, 1.0) forwards;
+}
+
+/* Cursor-trail tape fade */
+@keyframes tapeFade {
+  0% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Floating sticker bob (used on /location and the homepage). animation: bob ... infinite alternate */
+@keyframes bob {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-12px);
+  }
+}
+
+/* Center the 1440x1024 collage and visually frame it.
+   Layout box of .art-root is fixed at 1440x1024; CSS variables
+   on .canvas-frame give us a transform-scaled visual size so the
+   parent grid centers the SCALED footprint, not the layout box. */
+.canvas-frame {
+  /* Each viewport calc divides length by length to produce a unitless number,
+     so all three min() args have the same type (a number). Without this,
+     min() mixes <length> and <number>, becomes invalid, and the canvas
+     renders at native 1440x1024 — overflowing every narrow viewport. */
+  --canvas-scale: min(
+    calc((100vw - 32px) / 1440px),
+    calc((100dvh - 32px) / 1024px),
+    1
+  );
+  --scaled-w: calc(1440px * var(--canvas-scale));
+  --scaled-h: calc(1024px * var(--canvas-scale));
+
+  display: grid;
+  place-items: center;
+  width: 100vw;
+  min-height: 100dvh;
+  padding: 16px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.canvas-frame .art-root {
+  width: 1440px;
+  height: 1024px;
+  flex-shrink: 0;
+  transform: scale(var(--canvas-scale));
+  transform-origin: center;
+  /* Reserve only the SCALED footprint in layout so grid can center it. */
+  margin:
+    calc((var(--scaled-h) - 1024px) / 2)
+    calc((var(--scaled-w) - 1440px) / 2);
+}

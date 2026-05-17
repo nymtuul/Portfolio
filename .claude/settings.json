@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s -o /tmp/nym-page.html -w \"HTTP %{http_code}\\\\nbytes: %{size_download}\\\\n\" http://localhost:3000/)",
+      "Read(//private/tmp/**)",
+      "Bash(bunx tsc *)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://localhost:3000/)",
+      "Bash(bun add *)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://localhost:3000/jiwoo)"
+    ]
+  }
+}
