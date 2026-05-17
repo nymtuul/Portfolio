@@ -3,8 +3,8 @@ import { LocationPage } from "@/components/location/location-page";
 import { ScaleToFit } from "@/components/scale-to-fit";
 
 export const metadata: Metadata = {
-  title: "Location — Help Choi Jiwoo find her love",
-  description: "find jiwoo on the map",
+  title: "uni",
+  description: "where i'm pretending to be a serious student",
 };
 
 export default function Page() {

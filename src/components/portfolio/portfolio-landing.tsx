@@ -1,5 +1,4 @@
 import type { CSSProperties, ReactNode } from "react";
-import Link from "next/link";
 import { palette } from "@/lib/palette";
 import { textures } from "@/lib/textures";
 import { content } from "./content";
@@ -90,9 +89,17 @@ export function PortfolioLanding() {
             </div>
 
             <div style={{ marginBottom: 28 }}>
-              <RansomText text={content.ransomLine1} size={68} palette={palette} />
+              <RansomText
+                text={content.ransomLine1}
+                size={68}
+                palette={palette}
+              />
               <div style={{ height: 12 }} />
-              <RansomText text={content.ransomLine2} size={68} palette={palette} />
+              <RansomText
+                text={content.ransomLine2}
+                size={68}
+                palette={palette}
+              />
             </div>
 
             {/* Sticker tucked under the UUL letters of "I'M NYMTUUL". Position is
@@ -140,40 +147,6 @@ export function PortfolioLanding() {
               {content.body.line2}
               <br />
               {content.body.line3}
-            </div>
-
-            <div style={{ display: "flex", gap: 18, marginTop: 8 }}>
-              {content.tabs.map((item, i) => {
-                const active = i === 0;
-                const tabStyle: CSSProperties = {
-                  padding: "10px 22px",
-                  background: active ? navy : cream,
-                  color: active ? cream : navy,
-                  fontFamily: '"Courier Prime", monospace',
-                  fontWeight: 700,
-                  fontSize: 14,
-                  letterSpacing: 2,
-                  textTransform: "uppercase",
-                  boxShadow: "2px 3px 6px rgba(0,0,0,0.2)",
-                  transform: `rotate(${i % 2 === 0 ? -1.5 : 1.5}deg)`,
-                  textDecoration: "none",
-                  border: `1px solid ${navy}`,
-                  display: "flex",
-                  alignItems: "baseline",
-                  gap: 8,
-                };
-                return (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    className="cl-link tab-link"
-                    style={tabStyle}
-                  >
-                    <span style={{ fontSize: 10, opacity: 0.6 }}>{item.sub}</span>
-                    <span>→ {item.label}</span>
-                  </Link>
-                );
-              })}
             </div>
 
             <DoodleArrow
@@ -307,11 +280,11 @@ export function PortfolioLanding() {
           <div
             style={{
               position: "absolute",
-              left: 1100,
-              top: 50,
-              width: 340,
+              left: 1010,
+              top: 30,
+              width: 430,
               transform: "rotate(6deg)",
-              filter: "drop-shadow(4px 8px 14px rgba(0,0,0,0.18))",
+              filter: "drop-shadow(5px 10px 16px rgba(0,0,0,0.2))",
               zIndex: 6,
             }}
           >
@@ -331,33 +304,24 @@ export function PortfolioLanding() {
               style={{
                 position: "absolute",
                 inset: 0,
-                padding: "60px 70px 70px 95px",
+                padding: "65px 120px 95px 80px",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
+                alignItems: "center",
+                textAlign: "center",
                 transform: "rotate(-2deg)",
               }}
             >
               <div
                 style={{
-                  fontFamily: '"Courier Prime", monospace',
-                  fontSize: 10,
-                  letterSpacing: 3,
-                  color: navy,
-                  textTransform: "uppercase",
-                  opacity: 0.55,
-                  marginBottom: 8,
-                }}
-              >
-                {content.pressed.date}
-              </div>
-              <div
-                style={{
                   fontFamily: '"Caveat", cursive',
                   fontSize: 22,
                   color: navy,
-                  lineHeight: 1.3,
+                  lineHeight: 1.35,
                   whiteSpace: "pre-line",
+                  textAlign: "center",
+                  width: "100%",
                 }}
               >
                 {content.pressed.body}
@@ -394,10 +358,8 @@ export function PortfolioLanding() {
               }}
             >
               ✉ &nbsp; {content.contact.email}
-              <br />
-              ✶ &nbsp; {content.contact.instagram}
-              <br />
-              ✦ &nbsp; {content.contact.resume}
+              <br />✶ &nbsp; {content.contact.instagram}
+              <br />✦ &nbsp; {content.contact.resume}
             </div>
           </TornPaper>
         </Flutter>
@@ -412,15 +374,15 @@ export function PortfolioLanding() {
           zIndex={25}
         />
 
-{/* Stickers */}
+        {/* Stickers */}
         <StarSticker
-          size={56}
+          size={124}
           color={cream}
           rotate={18}
           style={{ position: "absolute", top: 480, left: 1080, zIndex: 25 }}
         />
         <StarSticker
-          size={42}
+          size={94}
           color={navy}
           rotate={-22}
           style={{ position: "absolute", top: 410, left: 290, zIndex: 25 }}
@@ -428,42 +390,102 @@ export function PortfolioLanding() {
 
         {/* Image stickers — mix-blend-mode:multiply drops white bg on the pink wall */}
         {/* 7-point sparkle star — top-left corner */}
-        <img src="/s-sparkle.png" alt="" aria-hidden width={64} style={{
-          position: "absolute", top: 18, left: 12, zIndex: 26,
-          filter: "drop-shadow(1px 2px 4px rgba(0,0,0,0.15))",
-          pointerEvents: "none", userSelect: "none",
-        }} />
+        <img
+          src="/s-sparkle.png"
+          alt=""
+          aria-hidden
+          width={140}
+          style={{
+            position: "absolute",
+            top: 18,
+            left: 12,
+            zIndex: 26,
+            filter: "drop-shadow(1px 2px 4px rgba(0,0,0,0.15))",
+            pointerEvents: "none",
+            userSelect: "none",
+          }}
+        />
         {/* Animated pink star — floats above the main torn-paper block */}
-        <img src="/s-star-pink.png" alt="" aria-hidden width={58} style={{
-          position: "absolute", top: 148, left: 488, zIndex: 26,
-          filter: "drop-shadow(1px 2px 4px rgba(0,0,0,0.15))",
-          pointerEvents: "none", userSelect: "none",
-        }} />
+        <img
+          src="/s-star-pink.png"
+          alt=""
+          aria-hidden
+          width={127}
+          style={{
+            position: "absolute",
+            top: 148,
+            left: 488,
+            zIndex: 26,
+            filter: "drop-shadow(1px 2px 4px rgba(0,0,0,0.15))",
+            pointerEvents: "none",
+            userSelect: "none",
+          }}
+        />
         {/* Pink spiral — gap between the two left polaroids */}
-        <img src="/s-spiral.png" alt="" aria-hidden width={72} style={{
-          position: "absolute", top: 395, left: 18, zIndex: 26,
-          filter: "drop-shadow(1px 2px 4px rgba(0,0,0,0.12))",
-          pointerEvents: "none", userSelect: "none",
-        }} />
+        <img
+          src="/s-spiral.png"
+          alt=""
+          aria-hidden
+          width={159}
+          style={{
+            position: "absolute",
+            top: 395,
+            left: 18,
+            zIndex: 26,
+            filter: "drop-shadow(1px 2px 4px rgba(0,0,0,0.12))",
+            pointerEvents: "none",
+            userSelect: "none",
+          }}
+        />
         {/* 3D iridescent star — top-right corner */}
-        <img src="/s-star3d.png" alt="" aria-hidden width={80} style={{
-          position: "absolute", top: 22, left: 1348, zIndex: 26,
-          transform: "rotate(-8deg)",
-          filter: "drop-shadow(2px 4px 8px rgba(0,0,0,0.2))",
-          pointerEvents: "none", userSelect: "none",
-        }} />
+        <img
+          src="/s-star3d.png"
+          alt=""
+          aria-hidden
+          width={176}
+          style={{
+            position: "absolute",
+            top: 22,
+            left: 1348,
+            zIndex: 26,
+            transform: "rotate(-8deg)",
+            filter: "drop-shadow(2px 4px 8px rgba(0,0,0,0.2))",
+            pointerEvents: "none",
+            userSelect: "none",
+          }}
+        />
         {/* Glass heart — bottom left, below polaroids */}
-        <img src="/s-heart.png" alt="" aria-hidden width={82} style={{
-          position: "absolute", top: 862, left: 165, zIndex: 26,
-          filter: "drop-shadow(2px 4px 6px rgba(0,0,0,0.18))",
-          pointerEvents: "none", userSelect: "none",
-        }} />
+        <img
+          src="/s-heart.png"
+          alt=""
+          aria-hidden
+          width={181}
+          style={{
+            position: "absolute",
+            top: 862,
+            left: 165,
+            zIndex: 26,
+            filter: "drop-shadow(2px 4px 6px rgba(0,0,0,0.18))",
+            pointerEvents: "none",
+            userSelect: "none",
+          }}
+        />
         {/* 3D push-pin — bottom center */}
-        <img src="/s-pin.png" alt="" aria-hidden width={52} style={{
-          position: "absolute", top: 908, left: 590, zIndex: 26,
-          filter: "drop-shadow(1px 3px 5px rgba(0,0,0,0.2))",
-          pointerEvents: "none", userSelect: "none",
-        }} />
+        <img
+          src="/s-pin.png"
+          alt=""
+          aria-hidden
+          width={114}
+          style={{
+            position: "absolute",
+            top: 908,
+            left: 590,
+            zIndex: 26,
+            filter: "drop-shadow(1px 3px 5px rgba(0,0,0,0.2))",
+            pointerEvents: "none",
+            userSelect: "none",
+          }}
+        />
 
         {/* Page number */}
         <HandNote

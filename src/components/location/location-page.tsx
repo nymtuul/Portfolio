@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from "react";
 import type { CSSProperties } from "react";
+import Link from "next/link";
 import { FloatingSticker } from "./floating-sticker";
 import { RansomText } from "@/components/portfolio/primitives/ransom-text";
 import { Tape } from "@/components/portfolio/primitives/tape";
+import { TimelineSection } from "./timeline-section";
 import { palette } from "@/lib/palette";
 
-const { accent, denim, navy, cream } = palette;
+const { accent, denim, navy, cream, wall } = palette;
 
 const MAP_EMBED_URL =
   "https://www.google.com/maps?q=National+University+of+Mongolia,Ulaanbaatar&z=17&output=embed";
@@ -138,11 +140,7 @@ export function LocationPage() {
 
   return (
     <main style={{
-      background: `
-        radial-gradient(circle at 15% 20%, ${accent}55 0%, transparent 40%),
-        radial-gradient(circle at 85% 80%, ${accent}88 0%, transparent 40%),
-        #fce9ef
-      `,
+      backgroundColor: wall,
       overflowX: "hidden",
     }}>
       {/* Fixed-width canvas so absolute positions are bounded */}
@@ -153,6 +151,35 @@ export function LocationPage() {
         minHeight: "100vh",
         padding: "60px 40px 100px",
       }}>
+
+      {/* ── Back to home button (top-right) ── */}
+      <Link
+        href="/"
+        className="scrap-tilt"
+        style={{
+          position: "absolute",
+          top: 60,
+          right: 60,
+          background: cream,
+          padding: "12px 22px",
+          borderRadius: 999,
+          border: `2px solid ${navy}`,
+          transform: "rotate(2deg)",
+          boxShadow: "3px 5px 12px rgba(0,0,0,0.15)",
+          fontFamily: '"Caveat", cursive',
+          fontSize: 22,
+          fontWeight: 600,
+          color: navy,
+          textDecoration: "none",
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 8,
+          zIndex: 30,
+        }}
+      >
+        <span style={{ fontSize: 20 }}>←</span>
+        <span>back home</span>
+      </Link>
 
       {/* ── Title scrap (top-left) ── */}
       <div className="scrap-tilt" style={{
@@ -197,58 +224,67 @@ export function LocationPage() {
 
       {/* ── Real image stickers scattered around ── */}
       {/* Pink globe — left side near map */}
-      <img src="/s-globe.png" alt="" aria-hidden width={110} style={{
+      <img src="/s-globe.png" alt="" aria-hidden width={242} style={{
         position: "absolute", top: 550, left: 50, zIndex: 6,
         filter: "drop-shadow(2px 6px 10px rgba(0,0,0,0.2))",
         pointerEvents: "none", userSelect: "none",
       }} />
       {/* Retro pink phone — left side below map */}
-      <img src="/s-phone.png" alt="" aria-hidden width={115} style={{
+      <img src="/s-phone.png" alt="" aria-hidden width={254} style={{
         position: "absolute", top: 840, left: 45, zIndex: 6,
         filter: "drop-shadow(2px 6px 10px rgba(0,0,0,0.2))",
         pointerEvents: "none", userSelect: "none",
       }} />
       {/* Star wand with wings — top right */}
-      <img src="/s-wand-mic.png" alt="" aria-hidden width={90} style={{
+      <img src="/s-wand-mic.png" alt="" aria-hidden width={198} style={{
         position: "absolute", top: 130, left: 1250, zIndex: 6,
         filter: "drop-shadow(2px 4px 8px rgba(0,0,0,0.18))",
         pointerEvents: "none", userSelect: "none",
       }} />
       {/* Pink credit card — right side mid */}
-      <img src="/s-card.png" alt="" aria-hidden width={105} style={{
+      <img src="/s-card.png" alt="" aria-hidden width={231} style={{
         position: "absolute", top: 460, left: 1270, zIndex: 6,
         filter: "drop-shadow(2px 4px 8px rgba(0,0,0,0.18))",
         pointerEvents: "none", userSelect: "none",
       }} />
       {/* Pink star (hand drawn) — upper center */}
-      <img src="/s-star-pink.png" alt="" aria-hidden width={55} style={{
+      <img src="/s-star-pink.png" alt="" aria-hidden width={122} style={{
         position: "absolute", top: 200, left: 1130, zIndex: 6,
         filter: "drop-shadow(1px 2px 4px rgba(0,0,0,0.15))",
         pointerEvents: "none", userSelect: "none",
       }} />
       {/* 3D glass heart — right of cycling bubbles */}
-      <img src="/s-heart.png" alt="" aria-hidden width={80} style={{
-        position: "absolute", top: 175, left: 830, zIndex: 6,
+      <img src="/s-heart.png" alt="" aria-hidden width={176} style={{
+        position: "absolute", top: 60, left: 830, zIndex: 6,
         filter: "drop-shadow(2px 4px 8px rgba(0,0,0,0.18))",
         pointerEvents: "none", userSelect: "none",
       }} />
       {/* 3D iridescent star — right side lower */}
-      <img src="/s-star3d.png" alt="" aria-hidden width={85} style={{
+      <img src="/s-star3d.png" alt="" aria-hidden width={187} style={{
         position: "absolute", top: 730, left: 1310, zIndex: 6,
         transform: "rotate(20deg)",
         filter: "drop-shadow(2px 4px 8px rgba(0,0,0,0.18))",
         pointerEvents: "none", userSelect: "none",
       }} />
-      {/* Heart button — near bottom cards */}
-      <img src="/s-button-heart.png" alt="" aria-hidden width={65} style={{
-        position: "absolute", top: 1050, left: 310, zIndex: 6,
+      {/* Heart button — bottom-left near snack note */}
+      <img src="/s-button-heart.png" alt="" aria-hidden width={111} style={{
+        position: "absolute", top: 880, left: 380, zIndex: 6,
+        transform: "rotate(-8deg)",
         filter: "drop-shadow(1px 2px 4px rgba(0,0,0,0.15))",
         pointerEvents: "none", userSelect: "none",
       }} />
-      {/* Pink lily flower — bottom right area */}
-      <img src="/s-flower.png" alt="" aria-hidden width={90} style={{
-        position: "absolute", top: 1060, left: 1240, zIndex: 6,
+      {/* Pink lily flower — bottom-right */}
+      <img src="/s-flower.png" alt="" aria-hidden width={152} style={{
+        position: "absolute", top: 870, left: 1050, zIndex: 6,
+        transform: "rotate(12deg)",
         filter: "drop-shadow(2px 4px 6px rgba(0,0,0,0.15))",
+        pointerEvents: "none", userSelect: "none",
+      }} />
+      {/* Sparkle — between map and bottom */}
+      <img src="/s-sparkle.png" alt="" aria-hidden width={94} style={{
+        position: "absolute", top: 740, left: 720, zIndex: 6,
+        transform: "rotate(15deg)",
+        filter: "drop-shadow(1px 2px 4px rgba(0,0,0,0.15))",
         pointerEvents: "none", userSelect: "none",
       }} />
 
@@ -408,100 +444,23 @@ export function LocationPage() {
       {/* Static "established 2022" bubble */}
       <Bubble top={110} left={1080} rotate={6} emoji="📍">established 2022</Bubble>
 
-      {/* ── Detail cards ── */}
-      <div style={{
-        maxWidth: 1100,
-        margin: "80px auto 0",
-        display: "grid",
-        gridTemplateColumns: "1.2fr 1fr 1fr",
-        gap: 28,
-        position: "relative",
-        zIndex: 6,
-      }}>
-        {/* Card 1: address */}
-        <div className="scrap-tilt" style={{
-          background: "#fff8eb",
-          padding: "28px 30px",
-          transform: "rotate(-1.5deg)",
-          boxShadow: "4px 8px 18px rgba(0,0,0,0.15)",
-          backgroundImage: `repeating-linear-gradient(transparent 0 27px, ${accent}66 27px 28px)`,
-          position: "relative",
-        }}>
-          <div style={{ fontFamily: '"Caveat", cursive', fontSize: 32, color: navy, marginBottom: 10 }}>
-            📮 the address
-          </div>
-          <div style={{ fontFamily: '"Caveat", cursive', fontSize: 22, color: navy, lineHeight: 1.5 }}>
-            WWF9+6H6, SBD<br />
-            6 khoroo,<br />
-            Ulaanbaatar 14200<br />
-            Mongolia 🇲🇳
-          </div>
-        </div>
-
-        {/* Card 2: ticket stub */}
-        <div className="scrap-tilt" style={{
-          background: cream,
-          padding: "28px 30px",
-          transform: "rotate(1.5deg)",
-          boxShadow: "4px 8px 18px rgba(0,0,0,0.15)",
-          border: `2px dashed ${navy}`,
-        }}>
-          <div style={{
-            fontFamily: '"Courier Prime", monospace',
-            fontSize: 12, letterSpacing: 3,
-            color: navy, opacity: 0.6,
-            textTransform: "uppercase", marginBottom: 12,
-          }}>★ ticket stub ★</div>
-          <div style={{ fontFamily: '"Caveat", cursive', fontSize: 30, color: navy, marginBottom: 6 }}>
-            nymtuul · 2022—now
-          </div>
-          <div style={{ fontFamily: '"Caveat", cursive', fontSize: 20, color: navy, lineHeight: 1.4 }}>
-            🎓 student of [discipline]<br />
-            ⭐ rating: 4.5 (272 reviews)
-          </div>
-        </div>
-
-        {/* Card 3: nearby */}
-        <div className="scrap-tilt" style={{
-          background: accent,
-          padding: "28px 30px",
-          transform: "rotate(-2deg)",
-          boxShadow: "4px 8px 18px rgba(0,0,0,0.15)",
-          position: "relative",
-        }}>
-          <div style={{ fontFamily: '"Caveat", cursive', fontSize: 30, color: navy, marginBottom: 10 }}>
-            nearby ↘
-          </div>
-          <div style={{ fontFamily: '"Caveat", cursive', fontSize: 20, color: navy, lineHeight: 1.5 }}>
-            ☕ Karaoke spot<br />
-            🏛 Chinggis Khaan museum<br />
-            🌳 Gov Outdoor Park<br />
-            🏨 UB Grand Hotel<br />
-            🎵 Music College
-          </div>
-          <div style={{
-            position: "absolute", top: -16, right: 18,
-            background: navy, color: cream,
-            padding: "4px 12px", borderRadius: 999,
-            fontFamily: '"Courier Prime", monospace',
-            fontSize: 11, fontWeight: 700,
-            letterSpacing: 1, transform: "rotate(8deg)",
-          }}>★ FAVES</div>
-        </div>
-      </div>
-
       {/* ── Bottom note ── */}
       <div style={{
         textAlign: "center",
-        marginTop: 80,
+        marginTop: 160,
         fontFamily: '"Caveat", cursive',
         fontSize: 30,
         color: navy,
         opacity: 0.85,
+        position: "relative",
+        zIndex: 7,
       }}>
         ~ if you visit, bring snacks ~ 🍓
       </div>
       </div>{/* end inner canvas */}
+
+      {/* ── Chapter four: vertical life timeline ── */}
+      <TimelineSection />
     </main>
   );
 }

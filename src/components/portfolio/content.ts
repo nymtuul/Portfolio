@@ -9,11 +9,10 @@ export const content = {
     line2: "for half-baked ideas, finished things,",
     line3: "and the in-between drafts i couldn't bear to throw away.",
   },
-  tabs: [{ sub: "01", label: "location", href: "/location" }],
+  tabs: [{ sub: "01", label: "UNI LIFE", href: "/uni" }],
   hereNote: "here ↗",
   pageNumber: "— pg. 01 —",
   pressed: {
-    date: "pressed · may '26",
     body: "kept these in\nbetween pages so\nspring would stay\na little longer ~",
   },
   polaroids: [
