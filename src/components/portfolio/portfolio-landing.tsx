@@ -4,6 +4,7 @@ import { textures } from "@/lib/textures";
 import { content } from "./content";
 import { FloatingSticker } from "@/components/location/floating-sticker";
 import { CursorTapeTrail } from "./cursor-tape-trail";
+import { CanvasFrame } from "@/components/canvas-frame";
 import { DoodleArrow } from "./primitives/doodle-arrow";
 import { HandNote } from "./primitives/hand-note";
 import { Photo } from "./primitives/photo";
@@ -24,7 +25,7 @@ export function PortfolioLanding() {
   const { accent, denim, navy, cream, wall } = palette;
 
   return (
-    <div className="canvas-frame">
+    <CanvasFrame>
       <div
         className="art-root"
         style={{
@@ -33,7 +34,7 @@ export function PortfolioLanding() {
           position: "relative",
           overflow: "hidden",
           backgroundColor: wall,
-          fontFamily: "Inter, system-ui, sans-serif",
+          fontFamily: "var(--font-inter), system-ui, sans-serif",
         }}
       >
         {/* Subtle paper-noise overlay (kept for tactile feel, low opacity so the wall reads as one color) */}
@@ -76,7 +77,7 @@ export function PortfolioLanding() {
           >
             <div
               style={{
-                fontFamily: '"Courier Prime", monospace',
+                fontFamily: 'var(--font-courier), monospace',
                 fontSize: 12,
                 letterSpacing: 4,
                 color: navy,
@@ -131,7 +132,7 @@ export function PortfolioLanding() {
 
             <div
               style={{
-                fontFamily: '"Caveat", cursive',
+                fontFamily: 'var(--font-caveat), cursive',
                 fontSize: 24,
                 color: navy,
                 lineHeight: 1.55,
@@ -315,7 +316,7 @@ export function PortfolioLanding() {
             >
               <div
                 style={{
-                  fontFamily: '"Caveat", cursive',
+                  fontFamily: 'var(--font-caveat), cursive',
                   fontSize: 22,
                   color: navy,
                   lineHeight: 1.35,
@@ -351,7 +352,7 @@ export function PortfolioLanding() {
             </HandNote>
             <div
               style={{
-                fontFamily: '"Caveat", cursive',
+                fontFamily: 'var(--font-caveat), cursive',
                 fontSize: 19,
                 color: navy,
                 lineHeight: 1.6,
@@ -503,6 +504,6 @@ export function PortfolioLanding() {
         </HandNote>
       </div>
       <CursorTapeTrail />
-    </div>
+    </CanvasFrame>
   );
 }

@@ -5,6 +5,7 @@ import type { CSSProperties, ReactNode } from "react";
 import Link from "next/link";
 import { palette } from "@/lib/palette";
 import { RansomText } from "./primitives/ransom-text";
+import { MobileFrame } from "@/components/mobile-frame";
 
 const PAGE_YELLOW = "#ffffff";
 
@@ -200,12 +201,11 @@ function CluelessSticker({ style }: { style?: CSSProperties }) {
         x="32"
         y="86"
         textAnchor="middle"
-        fontFamily="'Caveat', cursive"
         fontSize="22"
         fontWeight="700"
         fill="#fff"
         transform="rotate(-90 32 80)"
-        style={{ letterSpacing: 1 }}
+        style={{ fontFamily: "var(--font-caveat), cursive", letterSpacing: 1 }}
       >
         Nymtuul
       </text>
@@ -247,7 +247,7 @@ function MiniCassette({ style }: { style?: CSSProperties }) {
         textAnchor="middle"
         fontSize="6"
         fill="#fff"
-        fontFamily="'Courier Prime', monospace"
+        style={{ fontFamily: "var(--font-courier), monospace" }}
       >
         MIX 04
       </text>
@@ -360,6 +360,7 @@ function MusicPlayerCard({
   canNext?: boolean;
 }) {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
   const [playing, setPlaying] = useState(false);
   const [current, setCurrent] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -374,6 +375,9 @@ function MusicPlayerCard({
     a.pause();
     a.currentTime = 0;
     a.load();
+    // Desktop and phone layouts both exist in the DOM; only the visible
+    // player may autoplay, otherwise the song would play twice.
+    if (!rootRef.current || rootRef.current.offsetParent === null) return;
     const playPromise = a.play();
     if (playPromise) {
       playPromise
@@ -415,6 +419,7 @@ function MusicPlayerCard({
 
   return (
     <div
+      ref={rootRef}
       style={{
         width: 180,
         background: "#fff",
@@ -422,7 +427,7 @@ function MusicPlayerCard({
         borderRadius: 12,
         padding: "8px 10px",
         boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
-        fontFamily: "'Inter', sans-serif",
+        fontFamily: "var(--font-inter), sans-serif",
         ...style,
       }}
       onClick={(e) => e.stopPropagation()}
@@ -669,7 +674,7 @@ function GlitterSticker({ style }: { style?: CSSProperties }) {
         x="40"
         y="20"
         textAnchor="middle"
-        fontFamily="'Caveat', cursive"
+        style={{ fontFamily: "var(--font-caveat), cursive" }}
         fontSize="14"
         fontWeight="700"
         fill="#fff"
@@ -948,7 +953,7 @@ function PolaroidEntry({
       <div
         style={{
           marginTop: 14,
-          fontFamily: '"Caveat", cursive',
+          fontFamily: 'var(--font-caveat), cursive',
           fontSize: 22,
           color: navy,
           textAlign: "center",
@@ -1004,7 +1009,7 @@ function DiarySpread({
         >
           <div
             style={{
-              fontFamily: '"Courier Prime", monospace',
+              fontFamily: 'var(--font-courier), monospace',
               fontSize: 12,
               letterSpacing: 3,
               color: navy,
@@ -1031,7 +1036,7 @@ function DiarySpread({
         <div style={{ height: "100%", position: "relative", paddingLeft: 14 }}>
           <div
             style={{
-              fontFamily: '"Caveat", cursive',
+              fontFamily: 'var(--font-caveat), cursive',
               fontSize: 42,
               fontWeight: 700,
               color: navy,
@@ -1044,7 +1049,7 @@ function DiarySpread({
 
           <div
             style={{
-              fontFamily: '"Caveat", cursive',
+              fontFamily: 'var(--font-caveat), cursive',
               fontSize: 20,
               color: denim,
               marginBottom: 20,
@@ -1055,7 +1060,7 @@ function DiarySpread({
 
           <div
             style={{
-              fontFamily: '"Caveat", cursive',
+              fontFamily: 'var(--font-caveat), cursive',
               fontSize: 20,
               color: navy,
               lineHeight: 1.55,
@@ -1086,7 +1091,7 @@ function DiarySpread({
               position: "absolute",
               bottom: 20,
               right: 30,
-              fontFamily: '"Caveat", cursive',
+              fontFamily: 'var(--font-caveat), cursive',
               fontSize: 17,
               color: navy,
               opacity: 0.55,
@@ -1535,7 +1540,7 @@ export function DiarySection() {
             background: atStart ? "#e8e0d4" : "#fff",
             border: `2px solid ${navy}`,
             cursor: atStart || flipping ? "not-allowed" : "pointer",
-            fontFamily: "Inter, sans-serif",
+            fontFamily: "var(--font-inter), sans-serif",
             fontSize: 22,
             fontWeight: 600,
             color: navy,
@@ -1562,7 +1567,7 @@ export function DiarySection() {
             background: atEnd ? "#e8e0d4" : "#fff",
             border: `2px solid ${navy}`,
             cursor: atEnd || flipping ? "not-allowed" : "pointer",
-            fontFamily: "Inter, sans-serif",
+            fontFamily: "var(--font-inter), sans-serif",
             fontSize: 22,
             fontWeight: 600,
             color: navy,
@@ -1625,7 +1630,7 @@ export function DiarySection() {
               border: `2px solid ${navy}`,
               transform: "rotate(-2deg)",
               boxShadow: "3px 5px 12px rgba(0,0,0,0.15)",
-              fontFamily: '"Caveat", cursive',
+              fontFamily: 'var(--font-caveat), cursive',
               fontSize: 24,
               fontWeight: 600,
               color: navy,
@@ -1641,5 +1646,227 @@ export function DiarySection() {
         </div>
       </div>
     </section>
+  );
+}
+
+/* ─────────────────────────────────────────────────
+   Phone layout — one tall page per entry, swipe or tap to turn
+   ───────────────────────────────────────────────── */
+
+export function DiarySectionMobile() {
+  const [page, setPage] = useState(0);
+  const touchX = useRef<number | null>(null);
+  const entry = diaryEntries[page];
+  const atStart = page === 0;
+  const atEnd = page === diaryEntries.length - 1;
+
+  const go = useCallback((i: number) => {
+    setPage(Math.max(0, Math.min(diaryEntries.length - 1, i)));
+  }, []);
+
+  const arrowStyle = (disabled: boolean): CSSProperties => ({
+    width: 48,
+    height: 48,
+    borderRadius: "50%",
+    background: disabled ? "#e8e0d4" : "#fff",
+    border: `2px solid ${navy}`,
+    fontSize: 20,
+    fontWeight: 600,
+    color: navy,
+    boxShadow: "2px 4px 10px rgba(0,0,0,0.15)",
+    opacity: disabled ? 0.5 : 1,
+    flexShrink: 0,
+  });
+
+  return (
+    <MobileFrame style={{ backgroundColor: wall }}>
+      <section style={{ padding: "56px 0 70px", position: "relative" }}>
+        <div style={{ textAlign: "center", marginBottom: 26 }}>
+          <RansomText text="MEMEMEM" size={40} palette={palette} />
+        </div>
+
+        {/* the page */}
+        <div
+          onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
+          onTouchEnd={(e) => {
+            if (touchX.current === null) return;
+            const dx = e.changedTouches[0].clientX - touchX.current;
+            touchX.current = null;
+            if (dx < -50) go(page + 1);
+            else if (dx > 50) go(page - 1);
+          }}
+          style={{
+            position: "relative",
+            width: 340,
+            margin: "0 auto 0 30px",
+            background: PAGE_YELLOW,
+            boxShadow: "0 16px 40px rgba(0,0,0,0.2), inset 10px 0 18px rgba(0,0,0,0.06)",
+            borderRadius: 4,
+            minHeight: 820,
+          }}
+        >
+          <div style={{ position: "absolute", top: -8, bottom: -8, left: -36, width: 70, overflow: "hidden", zIndex: 20, pointerEvents: "none" }}>
+            <EyeletLace height={1400} />
+          </div>
+
+          <div key={page} className="page-fade" style={{ padding: "34px 22px 40px 34px" }}>
+            <div
+              style={{
+                fontFamily: "var(--font-courier), monospace",
+                fontSize: 11,
+                letterSpacing: 2,
+                color: navy,
+                textTransform: "uppercase",
+                textAlign: "center",
+                opacity: 0.7,
+                marginBottom: 22,
+              }}
+            >
+              ── {entry.date} · {entry.weather} {entry.mood} ──
+            </div>
+
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 30 }}>
+              <PolaroidEntry entry={entry} rotate={-3} />
+            </div>
+
+            <div
+              style={{
+                fontFamily: "var(--font-caveat), cursive",
+                fontSize: 38,
+                fontWeight: 700,
+                color: navy,
+                lineHeight: 1.05,
+                marginBottom: 4,
+              }}
+            >
+              {entry.title}
+            </div>
+            <div
+              style={{
+                fontFamily: "var(--font-caveat), cursive",
+                fontSize: 19,
+                color: denim,
+                marginBottom: 14,
+              }}
+            >
+              mood: {entry.mood} &nbsp;·&nbsp; weather: {entry.weather}
+            </div>
+            <div
+              style={{
+                fontFamily: "var(--font-caveat), cursive",
+                fontSize: 20,
+                color: navy,
+                lineHeight: 1.5,
+                whiteSpace: "pre-line",
+              }}
+            >
+              {entry.body.replace(/(?<!\n)\n(?!\n)/g, " ")}
+            </div>
+            <div
+              style={{
+                textAlign: "center",
+                marginTop: 18,
+                fontFamily: "var(--font-caveat), cursive",
+                fontSize: 16,
+                color: navy,
+                opacity: 0.55,
+              }}
+            >
+              ~ pg. {String(page * 2 + 4).padStart(2, "0")} ~
+            </div>
+          </div>
+
+          {/* stickers */}
+          {/* eslint-disable @next/next/no-img-element */}
+          <img src="/sticker-2.png" alt="" aria-hidden width={78}
+            style={{ position: "absolute", top: -26, right: -8, transform: "rotate(12deg)", zIndex: 23, pointerEvents: "none", filter: "drop-shadow(2px 5px 8px rgba(0,0,0,0.2))" }} />
+          <img src="/sticker-5.png" alt="" aria-hidden width={92}
+            style={{ position: "absolute", top: 300, right: -22, transform: "rotate(14deg)", zIndex: 23, pointerEvents: "none", filter: "drop-shadow(2px 5px 8px rgba(0,0,0,0.2))" }} />
+          <img src="/sticker-7.png" alt="" aria-hidden width={86}
+            style={{ position: "absolute", bottom: -24, right: -12, transform: "rotate(-8deg)", zIndex: 23, pointerEvents: "none", filter: "drop-shadow(2px 5px 8px rgba(0,0,0,0.2))" }} />
+          {/* eslint-enable @next/next/no-img-element */}
+          <ScrapDeco style={{ top: 14, left: 18, transform: "rotate(-14deg) scale(0.7)", transformOrigin: "top left", zIndex: 21 }}>
+            <MiniCassette />
+          </ScrapDeco>
+          <ScrapDeco style={{ top: 250, left: 10, transform: "rotate(8deg)", zIndex: 21 }}>
+            <DaisyFlower size={44} />
+          </ScrapDeco>
+          <ScrapDeco style={{ bottom: 120, right: 16, transform: "rotate(15deg)", zIndex: 22 }}>
+            <PuffyHeart size={24} />
+          </ScrapDeco>
+        </div>
+
+        {/* player + navigation */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 18,
+            marginTop: 40,
+          }}
+        >
+          <button onClick={() => go(page - 1)} disabled={atStart} style={arrowStyle(atStart)} aria-label="previous page">
+            ←
+          </button>
+          <div style={{ transform: "rotate(-4deg)", filter: "drop-shadow(2px 5px 6px rgba(0,0,0,0.18))" }}>
+            <MusicPlayerCard
+              song={entry.song}
+              onPrev={() => go(page - 1)}
+              onNext={() => go(page + 1)}
+              canPrev={!atStart}
+              canNext={!atEnd}
+            />
+          </div>
+          <button onClick={() => go(page + 1)} disabled={atEnd} style={arrowStyle(atEnd)} aria-label="next page">
+            →
+          </button>
+        </div>
+
+        <div style={{ display: "flex", gap: 10, justifyContent: "center", marginTop: 28 }}>
+          {diaryEntries.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => go(i)}
+              aria-label={`page ${i + 1}`}
+              style={{
+                width: i === page ? 30 : 12,
+                height: 12,
+                borderRadius: 6,
+                border: `1.5px solid ${navy}`,
+                background: i === page ? navy : "transparent",
+                padding: 0,
+                transition: "all 250ms ease",
+              }}
+            />
+          ))}
+        </div>
+
+        <div style={{ display: "flex", justifyContent: "center", marginTop: 30 }}>
+          <Link
+            href="/uni"
+            style={{
+              background: cream,
+              padding: "12px 28px",
+              borderRadius: 999,
+              border: `2px solid ${navy}`,
+              transform: "rotate(-2deg)",
+              boxShadow: "3px 5px 12px rgba(0,0,0,0.15)",
+              fontFamily: "var(--font-caveat), cursive",
+              fontSize: 26,
+              fontWeight: 600,
+              color: navy,
+              textDecoration: "none",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            <span>uni life</span>
+            <span style={{ fontSize: 20 }}>→</span>
+          </Link>
+        </div>
+      </section>
+    </MobileFrame>
   );
 }

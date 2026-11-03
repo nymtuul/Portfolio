@@ -17,7 +17,7 @@ import "./globals.css";
 const playfair = Playfair_Display({
   weight: ["400", "700", "900"],
   style: ["normal", "italic"],
-  subsets: ["latin"],
+  subsets: ["latin", "cyrillic"],
   variable: "--font-playfair",
 });
 const dmSerif = DM_Serif_Display({
@@ -42,7 +42,7 @@ const abril = Abril_Fatface({
 });
 const oswald = Oswald({
   weight: ["400", "700"],
-  subsets: ["latin"],
+  subsets: ["latin", "cyrillic", "cyrillic-ext"],
   variable: "--font-oswald",
 });
 const courier = Courier_Prime({
@@ -52,7 +52,7 @@ const courier = Courier_Prime({
 });
 const caveat = Caveat({
   weight: ["400", "500", "700"],
-  subsets: ["latin"],
+  subsets: ["latin", "cyrillic", "cyrillic-ext"],
   variable: "--font-caveat",
 });
 const kalam = Kalam({
@@ -62,12 +62,12 @@ const kalam = Kalam({
 });
 const jetbrains = JetBrains_Mono({
   weight: ["400", "500"],
-  subsets: ["latin"],
+  subsets: ["latin", "cyrillic", "cyrillic-ext"],
   variable: "--font-jetbrains",
 });
 const inter = Inter({
   weight: ["300", "400", "500", "600"],
-  subsets: ["latin"],
+  subsets: ["latin", "cyrillic", "cyrillic-ext"],
   variable: "--font-inter",
 });
 
@@ -103,7 +103,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${fontVariables} h-full antialiased`}>
+    <html lang="mn" className={`${fontVariables} h-full antialiased`}>
       <body className="min-h-full">{children}</body>
     </html>
   );

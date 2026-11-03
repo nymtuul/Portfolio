@@ -45,7 +45,7 @@ export function BookSpine({
         style={{
           writingMode: "vertical-rl",
           transform: "rotate(180deg)",
-          fontFamily: '"Playfair Display", serif',
+          fontFamily: 'var(--font-playfair), serif',
           fontWeight: 700,
           fontSize: 11,
           letterSpacing: 2,

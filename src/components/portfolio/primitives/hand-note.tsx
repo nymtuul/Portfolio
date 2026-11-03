@@ -18,7 +18,7 @@ export function HandNote({
   return (
     <div
       style={{
-        fontFamily: '"Caveat", "Kalam", cursive',
+        fontFamily: 'var(--font-caveat), var(--font-kalam), cursive',
         fontSize: size,
         color,
         transform: `rotate(${rotate}deg)`,

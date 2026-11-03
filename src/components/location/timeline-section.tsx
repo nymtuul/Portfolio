@@ -221,7 +221,7 @@ function TimelineRow({
           ) : (
             <div
               style={{
-                fontFamily: '"Caveat", cursive',
+                fontFamily: 'var(--font-caveat), cursive',
                 fontSize: 20,
                 color: navy,
                 opacity: 0.55,
@@ -236,7 +236,7 @@ function TimelineRow({
         <div
           style={{
             marginTop: 8,
-            fontFamily: '"Caveat", cursive',
+            fontFamily: 'var(--font-caveat), cursive',
             fontSize: 18,
             color: navy,
             textAlign: "center",
@@ -296,7 +296,7 @@ function TimelineRow({
         >
           <div
             style={{
-              fontFamily: '"Caveat", cursive',
+              fontFamily: 'var(--font-caveat), cursive',
               fontWeight: 700,
               fontSize: 52,
               lineHeight: 1,
@@ -309,7 +309,7 @@ function TimelineRow({
           </div>
           <div
             style={{
-              fontFamily: '"Caveat", cursive',
+              fontFamily: 'var(--font-caveat), cursive',
               fontSize: 22,
               color: navy,
               marginBottom: 8,
@@ -319,7 +319,7 @@ function TimelineRow({
           </div>
           <div
             style={{
-              fontFamily: '"Caveat", cursive',
+              fontFamily: 'var(--font-caveat), cursive',
               fontSize: 17,
               color: navy,
               lineHeight: 1.4,
@@ -728,7 +728,7 @@ export function TimelineSection() {
       <div style={{ textAlign: "center", marginBottom: 30 }}>
         <div
           style={{
-            fontFamily: '"Courier Prime", monospace',
+            fontFamily: 'var(--font-courier), monospace',
             fontSize: 13,
             letterSpacing: 6,
             color: navy,
@@ -744,7 +744,7 @@ export function TimelineSection() {
         </div>
         <div
           style={{
-            fontFamily: '"Caveat", cursive',
+            fontFamily: 'var(--font-caveat), cursive',
             fontSize: 22,
             color: navy,
             marginTop: 10,
@@ -894,7 +894,7 @@ export function TimelineSection() {
                 border: `2px solid ${navy}`,
                 transform: "rotate(-2deg)",
                 boxShadow: "4px 6px 14px rgba(0,0,0,0.18)",
-                fontFamily: '"Caveat", cursive',
+                fontFamily: 'var(--font-caveat), cursive',
                 fontWeight: 700,
                 fontSize: 30,
                 color: navy,
@@ -910,6 +910,222 @@ export function TimelineSection() {
             </Link>
           </div>
         </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────────────────────────────────
+   Phone layout — single column with the backbone on the left
+   ───────────────────────────────────────────────── */
+
+export function TimelineSectionMobile() {
+  return (
+    <section style={{ padding: "40px 0 70px", backgroundColor: wall, position: "relative" }}>
+      {/* eslint-disable @next/next/no-img-element */}
+      <img src="/s-wand.png" alt="" aria-hidden width={74}
+        style={{ position: "absolute", top: -14, right: 8, transform: "rotate(14deg)", zIndex: 5, pointerEvents: "none", filter: "drop-shadow(2px 4px 8px rgba(0,0,0,0.18))" }} />
+      <img src="/sticker-4.png" alt="" aria-hidden width={52}
+        style={{ position: "absolute", top: 30, left: 14, transform: "rotate(-22deg)", zIndex: 5, pointerEvents: "none" }} />
+      {/* eslint-enable @next/next/no-img-element */}
+
+      <div style={{ textAlign: "center", marginBottom: 30 }}>
+        <div
+          style={{
+            fontFamily: "var(--font-courier), monospace",
+            fontSize: 11,
+            letterSpacing: 4,
+            color: navy,
+            opacity: 0.6,
+            textTransform: "uppercase",
+            marginBottom: 8,
+          }}
+        >
+          ― chapter four · the years ―
+        </div>
+        <RansomText text="MY YEARS" size={40} palette={palette} />
+        <div
+          style={{
+            fontFamily: "var(--font-caveat), cursive",
+            fontSize: 20,
+            color: navy,
+            marginTop: 6,
+            opacity: 0.85,
+          }}
+        >
+          ~ a little life, plotted out ~
+        </div>
+      </div>
+
+      <div role="list" style={{ position: "relative", padding: "0 14px 0 52px" }}>
+        {/* backbone */}
+        <div
+          style={{
+            position: "absolute",
+            top: 10,
+            bottom: 10,
+            left: 26,
+            width: 0,
+            borderLeft: `3px dashed ${navy}`,
+            opacity: 0.55,
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            left: 21,
+            width: 13,
+            background: accent,
+            opacity: 0.5,
+            borderRadius: 8,
+          }}
+        />
+
+        {timelineEntries.map((entry, i) => {
+          const s = 0.7; // card scale vs desktop
+          const flip = i % 2 === 1;
+          return (
+            <div
+              role="listitem"
+              key={entry.year}
+              aria-label={`Timeline entry: ${entry.year}, ${entry.title}`}
+              style={{ position: "relative", marginBottom: 34 }}
+            >
+              {/* dot */}
+              <div
+                style={{
+                  position: "absolute",
+                  left: -36,
+                  top: 70,
+                  width: 18,
+                  height: 18,
+                  borderRadius: "50%",
+                  background: accent,
+                  border: `3.5px solid ${navy}`,
+                  boxShadow: "0 2px 5px rgba(0,0,0,0.22)",
+                  zIndex: 3,
+                }}
+              />
+              {/* paper card */}
+              <div
+                style={{
+                  width: Math.round((entry.cardWidth ?? 440) * s) + 20,
+                  maxWidth: "100%",
+                  backgroundImage: `url("${entry.cardImage}")`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  padding: "46px 40px",
+                  transform: `rotate(${entry.rotate}deg)`,
+                  textAlign: "center",
+                  position: "relative",
+                  zIndex: 2,
+                }}
+              >
+                <div
+                  style={{
+                    transform: `translate(${(entry.textOffsetX ?? 0) * s}px, ${(entry.textOffsetY ?? 0) * s}px)`,
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: "var(--font-caveat), cursive",
+                      fontWeight: 700,
+                      fontSize: 42,
+                      lineHeight: 1,
+                      color: navy,
+                    }}
+                  >
+                    {entry.year}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "var(--font-caveat), cursive",
+                      fontSize: 20,
+                      color: navy,
+                      margin: "2px 0 6px",
+                    }}
+                  >
+                    {entry.mood} {entry.title}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "var(--font-caveat), cursive",
+                      fontSize: 17,
+                      color: navy,
+                      lineHeight: 1.35,
+                      whiteSpace: "pre-line",
+                      opacity: 0.85,
+                    }}
+                  >
+                    {entry.body}
+                  </div>
+                </div>
+              </div>
+              {/* polaroid */}
+              <div
+                style={{
+                  width: 150,
+                  background: "#faf3e0",
+                  padding: "10px 10px 8px",
+                  transform: `rotate(${entry.photoRotate}deg)`,
+                  boxShadow: "4px 7px 14px rgba(0,0,0,0.25)",
+                  margin: flip ? "-26px 0 0 4px" : "-26px 0 0 auto",
+                  position: "relative",
+                  zIndex: 3,
+                }}
+              >
+                <div style={{ width: "100%", aspectRatio: "1 / 1", overflow: "hidden", background: cream }}>
+                  {entry.photo && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={entry.photo}
+                      alt={`${entry.photoLabel} (${entry.year})`}
+                      style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                    />
+                  )}
+                </div>
+                <div
+                  style={{
+                    marginTop: 6,
+                    fontFamily: "var(--font-caveat), cursive",
+                    fontSize: 16,
+                    color: navy,
+                    textAlign: "center",
+                  }}
+                >
+                  {entry.photoLabel} · {entry.year}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div style={{ display: "flex", justifyContent: "center", marginTop: 20 }}>
+        <Link
+          href="/"
+          style={{
+            background: cream,
+            padding: "12px 30px",
+            borderRadius: 999,
+            border: `2px solid ${navy}`,
+            transform: "rotate(-2deg)",
+            boxShadow: "4px 6px 14px rgba(0,0,0,0.18)",
+            fontFamily: "var(--font-caveat), cursive",
+            fontWeight: 700,
+            fontSize: 26,
+            color: navy,
+            textDecoration: "none",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 8,
+          }}
+        >
+          <span>←</span>
+          <span>back home</span>
+        </Link>
       </div>
     </section>
   );

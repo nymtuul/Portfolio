@@ -22,7 +22,7 @@ export function PhotoPlaceholder({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        fontFamily: '"JetBrains Mono", monospace',
+        fontFamily: 'var(--font-jetbrains), monospace',
         fontSize: 11,
         color: "#2d3e5f",
         letterSpacing: 1,
