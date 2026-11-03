@@ -10,7 +10,7 @@ export function NewsHeadline({
   return (
     <div
       style={{
-        fontFamily: '"Playfair Display", "Times New Roman", serif',
+        fontFamily: 'var(--font-playfair), "Times New Roman", serif',
         fontWeight: 900,
         fontSize: 22,
         letterSpacing: 1,

@@ -2,14 +2,14 @@ import type { CSSProperties } from "react";
 import { buildRansomPalette, type Palette } from "@/lib/palette";
 
 const ransomFonts = [
-  { family: '"Playfair Display", serif', weight: 900, style: "normal" as const },
-  { family: '"DM Serif Display", serif', weight: 400, style: "normal" as const },
-  { family: '"Bebas Neue", sans-serif', weight: 400, style: "normal" as const },
-  { family: '"Courier Prime", monospace', weight: 700, style: "normal" as const },
-  { family: '"Anton", sans-serif', weight: 400, style: "normal" as const },
-  { family: '"Abril Fatface", serif', weight: 400, style: "normal" as const },
-  { family: '"Oswald", sans-serif', weight: 700, style: "normal" as const },
-  { family: '"Playfair Display", serif', weight: 700, style: "italic" as const },
+  { family: 'var(--font-playfair), serif', weight: 900, style: "normal" as const },
+  { family: 'var(--font-dm-serif), serif', weight: 400, style: "normal" as const },
+  { family: 'var(--font-bebas), sans-serif', weight: 400, style: "normal" as const },
+  { family: 'var(--font-courier), monospace', weight: 700, style: "normal" as const },
+  { family: 'var(--font-anton), sans-serif', weight: 400, style: "normal" as const },
+  { family: 'var(--font-abril), serif', weight: 400, style: "normal" as const },
+  { family: 'var(--font-oswald), sans-serif', weight: 700, style: "normal" as const },
+  { family: 'var(--font-playfair), serif', weight: 700, style: "italic" as const },
 ];
 
 export function RansomChar({

@@ -6,7 +6,8 @@ import Link from "next/link";
 import { FloatingSticker } from "./floating-sticker";
 import { RansomText } from "@/components/portfolio/primitives/ransom-text";
 import { Tape } from "@/components/portfolio/primitives/tape";
-import { TimelineSection } from "./timeline-section";
+import { TimelineSection, TimelineSectionMobile } from "./timeline-section";
+import { MobileFrame } from "@/components/mobile-frame";
 import { palette } from "@/lib/palette";
 
 const { accent, denim, navy, cream, wall } = palette;
@@ -104,7 +105,7 @@ function Bubble({ children, top, left, rotate = 0, emoji, big = false, color = "
       background: color,
       borderRadius: 999,
       padding: big ? "14px 26px" : "10px 20px",
-      fontFamily: '"Caveat", cursive',
+      fontFamily: 'var(--font-caveat), cursive',
       fontSize: big ? 24 : 18,
       fontWeight: 600,
       color: navy,
@@ -166,7 +167,7 @@ export function LocationPage() {
           border: `2px solid ${navy}`,
           transform: "rotate(2deg)",
           boxShadow: "3px 5px 12px rgba(0,0,0,0.15)",
-          fontFamily: '"Caveat", cursive',
+          fontFamily: 'var(--font-caveat), cursive',
           fontSize: 22,
           fontWeight: 600,
           color: navy,
@@ -194,7 +195,7 @@ export function LocationPage() {
         zIndex: 8,
       }}>
         <div style={{
-          fontFamily: '"Courier Prime", monospace',
+          fontFamily: 'var(--font-courier), monospace',
           fontSize: 11,
           letterSpacing: 4,
           color: navy,
@@ -206,7 +207,7 @@ export function LocationPage() {
           <RansomText text="HERE" size={48} palette={palette} />
         </div>
         <div style={{
-          fontFamily: '"Caveat", cursive',
+          fontFamily: 'var(--font-caveat), cursive',
           fontSize: 22,
           color: navy,
           lineHeight: 1.3,
@@ -345,7 +346,7 @@ export function LocationPage() {
               background: "#fff",
               padding: "6px 12px",
               borderRadius: 999,
-              fontFamily: "Inter, system-ui, sans-serif",
+              fontFamily: "var(--font-inter), system-ui, sans-serif",
               fontSize: 11,
               fontWeight: 600,
               color: navy,
@@ -360,7 +361,7 @@ export function LocationPage() {
               background: "#fff",
               padding: "6px 12px",
               borderRadius: 999,
-              fontFamily: "Inter, system-ui, sans-serif",
+              fontFamily: "var(--font-inter), system-ui, sans-serif",
               fontSize: 11,
               fontWeight: 600,
               color: navy,
@@ -376,7 +377,7 @@ export function LocationPage() {
             bottom: 22,
             left: 0, right: 0,
             textAlign: "center",
-            fontFamily: '"Caveat", cursive',
+            fontFamily: 'var(--font-caveat), cursive',
             fontSize: 28,
             color: navy,
           }}>
@@ -425,7 +426,7 @@ export function LocationPage() {
             background: "#fff",
             borderRadius: 999,
             padding: "14px 26px",
-            fontFamily: '"Caveat", cursive',
+            fontFamily: 'var(--font-caveat), cursive',
             fontSize: 24,
             fontWeight: 600,
             color: navy,
@@ -448,7 +449,7 @@ export function LocationPage() {
       <div style={{
         textAlign: "center",
         marginTop: 160,
-        fontFamily: '"Caveat", cursive',
+        fontFamily: 'var(--font-caveat), cursive',
         fontSize: 30,
         color: navy,
         opacity: 0.85,
@@ -462,5 +463,219 @@ export function LocationPage() {
       {/* ── Chapter four: vertical life timeline ── */}
       <TimelineSection />
     </main>
+  );
+}
+
+// ─── Phone layout ────────────────────────────────────────────────────────────
+
+export function LocationPageMobile() {
+  const [activeBubble, setActiveBubble] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => setActiveBubble((b) => (b + 1) % cyclingBubbles.length), 3500);
+    return () => clearInterval(id);
+  }, []);
+
+  const sticker: CSSProperties = {
+    position: "absolute",
+    filter: "drop-shadow(2px 4px 8px rgba(0,0,0,0.18))",
+    pointerEvents: "none",
+    userSelect: "none",
+  };
+
+  return (
+    <MobileFrame style={{ backgroundColor: wall }}>
+      <main style={{ position: "relative", padding: "20px 0 10px" }}>
+        {/* top bar */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 16px", position: "relative", zIndex: 30 }}>
+          <Link
+            href="/"
+            style={{
+              background: cream,
+              padding: "8px 16px",
+              borderRadius: 999,
+              border: `2px solid ${navy}`,
+              transform: "rotate(-2deg)",
+              boxShadow: "3px 5px 12px rgba(0,0,0,0.15)",
+              fontFamily: "var(--font-caveat), cursive",
+              fontSize: 20,
+              fontWeight: 600,
+              color: navy,
+              textDecoration: "none",
+              display: "inline-flex",
+              gap: 6,
+            }}
+          >
+            <span>←</span>
+            <span>back home</span>
+          </Link>
+          <div style={{
+            background: "#fff",
+            borderRadius: 999,
+            padding: "7px 14px",
+            fontFamily: "var(--font-caveat), cursive",
+            fontSize: 17,
+            fontWeight: 600,
+            color: navy,
+            boxShadow: "0 4px 14px rgba(0,0,0,0.12)",
+            transform: "rotate(4deg)",
+          }}>📍 established 2022</div>
+        </div>
+
+        {/* title scrap */}
+        <div style={{ position: "relative", height: 250 }}>
+          {/* eslint-disable @next/next/no-img-element */}
+          <img src="/s-heart.png" alt="" aria-hidden width={86} style={{ ...sticker, top: 20, right: 30, zIndex: 6 }} />
+          <img src="/s-wand-mic.png" alt="" aria-hidden width={92} style={{ ...sticker, top: 120, right: 0, zIndex: 6 }} />
+          {/* eslint-enable @next/next/no-img-element */}
+          <div style={{
+            position: "absolute",
+            top: 36, left: 18,
+            width: 250,
+            background: cream,
+            padding: "20px 22px",
+            transform: "rotate(-3deg)",
+            boxShadow: "4px 6px 14px rgba(0,0,0,0.12)",
+            zIndex: 8,
+          }}>
+            <div style={{
+              fontFamily: "var(--font-courier), monospace",
+              fontSize: 10,
+              letterSpacing: 3,
+              color: navy,
+              textTransform: "uppercase",
+              opacity: 0.6,
+              marginBottom: 6,
+            }}>― chapter three · location ―</div>
+            <RansomText text="HERE" size={42} palette={palette} />
+            <div style={{
+              fontFamily: "var(--font-caveat), cursive",
+              fontSize: 20,
+              color: navy,
+              lineHeight: 1.25,
+              marginTop: 6,
+            }}>
+              ~ the place where i&apos;m pretending to be a serious student ~
+            </div>
+          </div>
+          <Tape top={26} left={120} width={110} height={24} rotate={-12} pattern="striped" color={`${accent}cc`} zIndex={9} />
+        </div>
+
+        {/* cycling bubble */}
+        <div style={{ position: "relative", height: 54, display: "flex", justifyContent: "center", zIndex: 15 }}>
+          {cyclingBubbles.map((b, i) => (
+            <div
+              key={i}
+              className="bubble-cycle"
+              style={{
+                position: "absolute",
+                opacity: i === activeBubble ? 1 : 0,
+                transform: `translateY(${i === activeBubble ? 0 : -8}px) rotate(${b.rotate}deg)`,
+              }}
+            >
+              <div style={{
+                background: "#fff",
+                borderRadius: 999,
+                padding: "10px 20px",
+                fontFamily: "var(--font-caveat), cursive",
+                fontSize: 21,
+                fontWeight: 600,
+                color: navy,
+                boxShadow: "0 4px 14px rgba(0,0,0,0.12)",
+                whiteSpace: "nowrap",
+                display: "inline-flex",
+                gap: 6,
+              }}>
+                <span>{b.emoji}</span>
+                <span>{b.text}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* map polaroid */}
+        <div style={{ position: "relative", margin: "18px 14px 0", zIndex: 5 }}>
+          <div style={{
+            background: cream,
+            padding: "12px 12px 52px",
+            boxShadow: "6px 10px 24px rgba(0,0,0,0.2)",
+            transform: "rotate(-1deg)",
+            position: "relative",
+          }}>
+            <div style={{ width: "100%", aspectRatio: "4 / 3", position: "relative", overflow: "hidden" }}>
+              <iframe
+                title="Map"
+                src={MAP_EMBED_URL}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: 0 }}
+              />
+              <div style={{ position: "absolute", right: "6%", bottom: 0, height: "88%", pointerEvents: "none", zIndex: 2 }}>
+                <FloatingSticker
+                  src="/nymtuul-map.png"
+                  fallbackSrc="/nymtuul-placeholder.svg"
+                  alt="Nymtuul map"
+                  className="select-none"
+                  style={{
+                    height: "100%",
+                    width: "auto",
+                    filter: "drop-shadow(-4px 6px 10px rgba(0,0,0,0.3))",
+                    animation: "bob 4s ease-in-out infinite alternate",
+                  }}
+                />
+              </div>
+            </div>
+            <a
+              href="https://maps.google.com/?q=National+University+of+Mongolia,Ulaanbaatar"
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                position: "absolute",
+                bottom: 10,
+                left: 0,
+                right: 0,
+                textAlign: "center",
+                fontFamily: "var(--font-caveat), cursive",
+                fontSize: 20,
+                color: navy,
+                textDecoration: "none",
+                lineHeight: 1.1,
+              }}
+            >
+              National University of Mongolia · est. 1942
+              <div style={{ fontSize: 15, opacity: 0.6 }}>↗ open in maps</div>
+            </a>
+          </div>
+          <div style={{
+            position: "absolute", top: -10, left: "34%",
+            width: 110, height: 24,
+            transform: "rotate(-6deg)",
+            background: `repeating-linear-gradient(45deg, ${accent}cc 0 6px, ${cream}aa 6px 12px)`,
+            clipPath: "polygon(2% 8%, 98% 0%, 100% 92%, 1% 100%)",
+            boxShadow: "0 2px 6px rgba(0,0,0,0.18)",
+            zIndex: 20,
+          }} />
+        </div>
+
+        <div style={{ position: "relative", height: 120 }}>
+          {/* eslint-disable @next/next/no-img-element */}
+          <img src="/s-phone.png" alt="" aria-hidden width={96} style={{ ...sticker, top: 6, left: 8 }} />
+          <img src="/s-flower.png" alt="" aria-hidden width={74} style={{ ...sticker, top: 20, right: 14, transform: "rotate(12deg)" }} />
+          {/* eslint-enable @next/next/no-img-element */}
+          <div style={{
+            position: "absolute",
+            top: 48, left: 0, right: 0,
+            textAlign: "center",
+            fontFamily: "var(--font-caveat), cursive",
+            fontSize: 24,
+            color: navy,
+          }}>
+            ~ if you visit, bring snacks ~ 🍓
+          </div>
+        </div>
+
+        <TimelineSectionMobile />
+      </main>
+    </MobileFrame>
   );
 }

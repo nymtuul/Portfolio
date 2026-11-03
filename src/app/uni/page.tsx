@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { LocationPage } from "@/components/location/location-page";
+import { LocationPage, LocationPageMobile } from "@/components/location/location-page";
 import { ScaleToFit } from "@/components/scale-to-fit";
 
 export const metadata: Metadata = {
@@ -9,8 +9,15 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <ScaleToFit designWidth={1440}>
-      <LocationPage />
-    </ScaleToFit>
+    <>
+      <div className="only-desktop">
+        <ScaleToFit designWidth={1440}>
+          <LocationPage />
+        </ScaleToFit>
+      </div>
+      <div className="only-mobile">
+        <LocationPageMobile />
+      </div>
+    </>
   );
 }

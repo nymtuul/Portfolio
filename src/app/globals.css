@@ -109,25 +109,19 @@ body {
 }
 
 /* Center the 1440x1024 collage and visually frame it.
-   Layout box of .art-root is fixed at 1440x1024; CSS variables
-   on .canvas-frame give us a transform-scaled visual size so the
-   parent grid centers the SCALED footprint, not the layout box. */
+   --canvas-scale is written by <CanvasFrame> in JS. (The previous pure-CSS
+   version divided a length by a length, which only very new browsers
+   understand — older iPhone Safari ignored it and rendered the collage at
+   full 1440px, cropped.) */
 .canvas-frame {
-  /* Each viewport calc divides length by length to produce a unitless number,
-     so all three min() args have the same type (a number). Without this,
-     min() mixes <length> and <number>, becomes invalid, and the canvas
-     renders at native 1440x1024 — overflowing every narrow viewport. */
-  --canvas-scale: min(
-    calc((100vw - 32px) / 1440px),
-    calc((100dvh - 32px) / 1024px),
-    1
-  );
+  --canvas-scale: 1;
   --scaled-w: calc(1440px * var(--canvas-scale));
   --scaled-h: calc(1024px * var(--canvas-scale));
 
   display: grid;
   place-items: center;
-  width: 100vw;
+  width: 100%;
+  min-height: 100vh;
   min-height: 100dvh;
   padding: 16px;
   box-sizing: border-box;
@@ -144,4 +138,40 @@ body {
   margin:
     calc((var(--scaled-h) - 1024px) / 2)
     calc((var(--scaled-w) - 1440px) / 2);
+}
+
+/* ── Responsive switch: phones get their own layouts ── */
+.only-mobile {
+  display: none;
+}
+@media (max-width: 767px) {
+  .only-mobile {
+    display: block;
+  }
+  .only-desktop {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flutter {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* Phone diary: soft page change */
+@keyframes pageFade {
+  from { opacity: 0; transform: translateX(12px); }
+  to   { opacity: 1; transform: none; }
+}
+.page-fade {
+  animation: pageFade 380ms ease both;
+}
+
+/* Portrait tablets: don't pad the landing collage out to full screen height */
+@media (orientation: portrait) {
+  .canvas-frame {
+    min-height: auto;
+  }
 }
